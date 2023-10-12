@@ -12,7 +12,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    const db = this.configService.get<DATABASE>('DATABASE');
     return this.appService.getHello();
   }
 }
