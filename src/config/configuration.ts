@@ -31,6 +31,9 @@ const schema = Joi.object().keys({
     port: Joi.string().default('3306'),
     type: Joi.string().default('mysql'),
   }),
+  SECURITY_CONFIG: Joi.object({
+    secret: Joi.string().required(),
+  }),
 });
 
 export const getConfig = () => {

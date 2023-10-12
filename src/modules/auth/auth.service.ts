@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { BusinessException } from '../../common/exceptions/business.exception';
+import { BUSINESS_ERROR_CODE } from '../../common/exceptions/business.error.codes';
 
 @Injectable()
 export class AuthService {
@@ -43,7 +44,11 @@ export class AuthService {
         }),
       };
     } else {
-      BusinessException.throwForbidden();
+      // BusinessException.throwForbidden();
+      return new BusinessException({
+        code: BUSINESS_ERROR_CODE.COMMON,
+        message: '用户名或者密码不正确',
+      });
     }
   }
 }

@@ -24,12 +24,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<FastifyRequest>();
     const status = exception.getStatus();
 
-    // this.Logger.error('exception:' + JSON.stringify(exception));
-    // this.Logger.error('url:' + JSON.stringify(request.url));
-    // this.Logger.error('body:' + JSON.stringify(request.body));
-    // this.Logger.error('query:' + JSON.stringify(request.query));
-    // this.Logger.error('params:' + JSON.stringify(request.params));
-    // this.Logger.error('headers:' + JSON.stringify(request.headers));
+    this.Logger.error('exception:' + JSON.stringify(exception));
+    this.Logger.error('url:' + JSON.stringify(request.url));
+    this.Logger.error('body:' + JSON.stringify(request.body));
+    this.Logger.error('query:' + JSON.stringify(request.query));
+    this.Logger.error('params:' + JSON.stringify(request.params));
+    this.Logger.error('headers:' + JSON.stringify(request.headers));
 
     // 处理业务异常
     if (exception instanceof BusinessException) {

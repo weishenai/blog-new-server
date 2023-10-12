@@ -14,6 +14,7 @@ export class UserController {
     return await this.userService.getUserInfo(username);
   }
 
+  @NoAuth()
   @Post('create')
   @SwaggerDocumentation('创建用户', '返回创建结果', 'bad request例子', String)
   create(@Body() createUserDto: CreateUserDto) {

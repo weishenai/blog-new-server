@@ -38,14 +38,12 @@ export class UserService {
    */
   async create(createUserDto: CreateUserDto) {
     try {
-      let res;
       const tempUser = await this.userRepository.create(createUserDto);
       // 给密码加密
       tempUser.password = this.encodePassword(tempUser.password);
-      res = await this.userRepository.save(tempUser);
-
+      const res = await this.userRepository.save(tempUser);
       if (res) {
-        return 'success';
+        return '创建成功';
       } else {
         throw new BusinessException('用户创建失败');
       }

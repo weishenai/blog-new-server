@@ -21,15 +21,22 @@ export class TransformInterceptor<T>
     const request = context.switchToHttp().getRequest();
 
     return next.handle().pipe(
-      map((data) => ({
-        // 告诉前端这不是一个异常
-        status: '200',
-        success: true,
-        path: request.url,
-        message: '操作成功',
-        data: data,
-        responseTime: new Date(),
-      })),
+      map((data) => {
+        let message = '操作成功';
+        if (typeof data === 'object' && 'message' in data) {
+          message = data.message;
+          delete data.message;
+        }
+        return {
+          // 告诉前端这不是一个异常
+          status: 200,
+          success: true,
+          path: request.url,
+          message,
+          data: data,
+          responseTime: new Date(),
+        };
+      }),
     );
   }
 }

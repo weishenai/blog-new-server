@@ -6,24 +6,19 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Base } from './base.entity';
 
 @Entity({ name: 'blog_user' })
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  @Generated('uuid')
-  id: string;
-
+export class User extends Base {
   @Column({
     length: 255,
     type: 'varchar',
-    default: null,
     unique: true,
-    nullable: false,
     comment: '账号，唯一',
   })
   username: string;
 
-  @Column({ length: 64, nullable: false, default: null, comment: '密码' })
+  @Column({ length: 64, comment: '密码' })
   password: string;
 
   @Column({
@@ -57,16 +52,4 @@ export class User {
     comment: '用户头像',
   })
   avatar: string;
-
-  @CreateDateColumn({
-    name: 'createdAt',
-    nullable: true,
-  })
-  createdAt: string;
-
-  @UpdateDateColumn({
-    name: 'updatedAt',
-    nullable: true,
-  })
-  updatedAt: string;
 }
