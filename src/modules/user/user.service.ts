@@ -6,6 +6,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { BusinessException } from '../../common/exceptions/business.exception';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import {
+  entityKeys,
+  pick,
+  QueryResultDto,
+  QueryUserDto,
+} from './dto/query-user.dto';
 
 @Injectable()
 export class UserService {
@@ -42,6 +48,7 @@ export class UserService {
       // 给密码加密
       tempUser.password = this.encodePassword(tempUser.password);
       const res = await this.userRepository.save(tempUser);
+      console.log('result', res);
       if (res) {
         return '创建成功';
       } else {
@@ -49,6 +56,34 @@ export class UserService {
       }
     } catch (e) {
       console.log('e', e);
+    }
+  }
+
+  /**
+   * @description 获取用户列表
+   * @param params
+   */
+  async getList(params: QueryUserDto) {
+    const { current, size, username, role } = params;
+    const resultKeys = pick(entityKeys, ['user.password']);
+    const search = this.userRepository
+      .createQueryBuilder('user')
+      .select([...resultKeys])
+      .where('user.username Like :username', { username: `%${username}%` })
+      .andWhere('user.role = :role', { role })
+      .skip((current - 1) * size)
+      .take(size);
+    const list = await search.getMany();
+    const count = await search.getCount();
+    if (list) {
+      return {
+        record: list,
+        size,
+        current,
+        count,
+      };
+    } else {
+      return new BusinessException('查询用户列表失败');
     }
   }
 

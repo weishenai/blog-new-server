@@ -15,12 +15,12 @@ export class User extends Base {
   password: string;
 
   @Column({
-    type: 'int',
+    type: 'integer',
     nullable: false,
     default: 1,
     comment: '用户角色 1 管理员 2 普通用户',
   })
-  role: string;
+  role: number;
 
   @Column({ nullable: true, default: '', comment: '用户昵称' })
   nick_name: string;
