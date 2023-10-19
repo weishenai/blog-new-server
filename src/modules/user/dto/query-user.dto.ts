@@ -3,7 +3,7 @@ export class QueryUserDto {
 
   size: number;
 
-  username: string;
+  nickName: string;
 
   role: number;
 }
@@ -16,6 +16,7 @@ export class QueryResultDto {
   qq: string;
   ip: string;
   avatar: string;
+  address?: string;
 }
 
 export const entityKeys = [

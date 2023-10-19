@@ -26,4 +26,9 @@ export class UserController {
   async getUserList(@Body() params: QueryUserDto) {
     return this.userService.getList(params);
   }
+
+  @Get('/getUserById/:id')
+  async getUserInfoById(@Param('id') id: number) {
+    return this.userService.getUserById(id);
+  }
 }

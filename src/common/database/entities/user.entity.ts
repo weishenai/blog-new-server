@@ -8,10 +8,11 @@ export class User extends Base {
     type: 'varchar',
     unique: true,
     comment: '账号，唯一',
+    name: 'username',
   })
   username: string;
 
-  @Column({ length: 64, comment: '密码' })
+  @Column({ length: 64, comment: '密码', name: 'password' })
   password: string;
 
   @Column({
@@ -19,16 +20,23 @@ export class User extends Base {
     nullable: false,
     default: 1,
     comment: '用户角色 1 管理员 2 普通用户',
+    name: 'role',
   })
   role: number;
 
-  @Column({ nullable: true, default: '', comment: '用户昵称' })
-  nick_name: string;
+  @Column({
+    nullable: true,
+    default: '',
+    comment: '用户昵称',
+    name: 'nick_name',
+  })
+  nickName: string;
 
   @Column({
     nullable: true,
     default: '',
     comment: '用户QQ 用于联系',
+    name: 'qq',
   })
   qq: string;
 
@@ -36,6 +44,7 @@ export class User extends Base {
     nullable: true,
     default: '',
     comment: 'ip属地',
+    name: 'ip',
   })
   ip: string;
 
@@ -43,6 +52,7 @@ export class User extends Base {
     nullable: true,
     default: '',
     comment: '用户头像',
+    name: 'avatar',
   })
   avatar: string;
 }

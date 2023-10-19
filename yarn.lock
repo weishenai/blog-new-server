@@ -1800,6 +1800,11 @@ buffer@^6.0.3:
     base64-js "^1.3.1"
     ieee754 "^1.2.1"
 
+bufferpack@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.npmmirror.com/bufferpack/-/bufferpack-0.0.6.tgz#fb3d8738a0e1e4e03bcff99f9a75f9ec18a9d73e"
+  integrity sha512-MTWvLHElqczrIVhge9qHtqgNigJFyh0+tCDId5yCbFAfuekHWIG+uAgvoHVflwrDPuY/e47JE1ki5qcM7w4uLg==
+
 bundle-name@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmmirror.com/bundle-name/-/bundle-name-3.0.0.tgz#ba59bcc9ac785fb67ccdbf104a2bf60c099f0e1a"
@@ -3155,6 +3160,11 @@ interpret@^1.0.0:
   version "1.4.0"
   resolved "https://registry.npmmirror.com/interpret/-/interpret-1.4.0.tgz#665ab8bc4da27a774a40584e812e3e0fa45b1a1e"
   integrity sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
+
+ip@^1.1.2:
+  version "1.1.8"
+  resolved "https://registry.npmmirror.com/ip/-/ip-1.1.8.tgz#ae05948f6b075435ed3307acce04629da8cdbf48"
+  integrity sha512-PuExPYUiu6qMBQb4l06ecm6T6ujzhmh+MeJcW9wa89PoAz5pvd4zPgN5WJV104mb6S2T1AwNIAaB70JNrLQWhg==
 
 ipaddr.js@1.9.1:
   version "1.9.1"
@@ -5598,6 +5608,14 @@ write-file-atomic@^4.0.2:
   dependencies:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.7"
+
+xz-ipnet@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmmirror.com/xz-ipnet/-/xz-ipnet-1.0.2.tgz#65e8815d7e02b54097c3e9dbde6bba80f41d2c51"
+  integrity sha512-JDerwJPioHm8XKGgPk2CG+0KzlsI0p+0USneZkBhaXKJSYUFaqbT3xMVcA69oiTVu8eGqMHtASrJLzQ2ucG2mA==
+  dependencies:
+    bufferpack "0.0.6"
+    ip "^1.1.2"
 
 y18n@^5.0.5:
   version "5.0.8"

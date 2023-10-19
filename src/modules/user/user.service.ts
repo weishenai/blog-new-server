@@ -12,6 +12,7 @@ import {
   QueryResultDto,
   QueryUserDto,
 } from './dto/query-user.dto';
+import { getIpAddress } from '../../utils/tool';
 
 @Injectable()
 export class UserService {
@@ -64,12 +65,12 @@ export class UserService {
    * @param params
    */
   async getList(params: QueryUserDto) {
-    const { current, size, username, role } = params;
+    const { current, size, nickName, role } = params;
     const resultKeys = pick(entityKeys, ['user.password']);
     const search = this.userRepository
       .createQueryBuilder('user')
       .select([...resultKeys])
-      .where('user.username Like :username', { username: `%${username}%` })
+      .where('user.nick_name Like :nickName', { nickName: `%${nickName}%` })
       .andWhere('user.role = :role', { role })
       .skip((current - 1) * size)
       .take(size);
@@ -85,6 +86,25 @@ export class UserService {
     } else {
       return new BusinessException('查询用户列表失败');
     }
+  }
+
+  async getUserById(
+    id: number,
+  ): Promise<Omit<QueryResultDto, 'password' | 'ip'> | object> {
+    const resultKeys = pick(entityKeys, ['user.password']);
+    const search = this.userRepository
+      .createQueryBuilder('user')
+      .select([...resultKeys])
+      .where('user.id = :id', { id: id });
+    const user: Omit<User, 'password'> = await search.getOne();
+    if (user) {
+      this.Logger.log(
+        `用户 【${user.username}】 ip 【${getIpAddress(user.ip)}】`,
+      );
+      delete user.ip;
+      return user;
+    }
+    return {};
   }
 
   async findOne(username: string) {
