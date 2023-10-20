@@ -6,13 +6,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { BusinessException } from '../../common/exceptions/business.exception';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import {
-  entityKeys,
-  pick,
-  QueryResultDto,
-  QueryUserDto,
-} from './dto/query-user.dto';
-import { getIpAddress } from '../../utils/tool';
+import { entityKeys, QueryResultDto, QueryUserDto } from './dto/query-user.dto';
+import { getIpAddress, pick } from '../../utils/tool';
 
 @Injectable()
 export class UserService {

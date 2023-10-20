@@ -1,7 +1,7 @@
 import { Column, Entity } from 'typeorm';
 import { Base } from './base.entity';
 
-@Entity({ name: 'blog_photo+_album' })
+@Entity({ name: 'blog_photo_album' })
 export class PhotoAlbum extends Base {
   @Column({
     name: 'album_name',

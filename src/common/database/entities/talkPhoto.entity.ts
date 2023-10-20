@@ -16,6 +16,7 @@ export class TalkPhoto extends Base {
     comment: '图片地址',
     type: 'varchar',
     length: 255,
+    default: '',
     nullable: true,
   })
   url: string;

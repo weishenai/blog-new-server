@@ -30,7 +30,6 @@ export class Article extends Base {
   @Column({
     name: 'article_content',
     type: 'text',
-    default: '',
     comment: '文章内容',
   })
   articleContent: string;

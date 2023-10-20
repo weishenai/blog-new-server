@@ -31,9 +31,3 @@ export const entityKeys = [
   'user.password',
   'user.id',
 ];
-
-export function pick(originKeys: string[], filterKeys: string[]) {
-  return originKeys.filter((key) => {
-    return !filterKeys.includes(key);
-  });
-}

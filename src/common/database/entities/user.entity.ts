@@ -33,7 +33,6 @@ export class User extends Base {
   nickName: string;
 
   @Column({
-    nullable: true,
     default: '',
     comment: '用户QQ 用于联系',
     name: 'qq',
