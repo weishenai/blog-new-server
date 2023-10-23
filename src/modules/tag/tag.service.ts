@@ -6,7 +6,11 @@ import { CreateTagDto } from './dto/create-tag.dto';
 import { BusinessException } from '../../common/exceptions/business.exception';
 import { BUSINESS_ERROR_CODE } from '../../common/exceptions/business.error.codes';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { entityKeys, QueryTagDto } from './dto/query-tag.dto';
+import {
+  entityKeys,
+  QueryParamsTagDto,
+  QueryTagDto,
+} from './dto/query-tag.dto';
 import { pick } from '../../utils/tool';
 import { DeleteTagDto } from './dto/delete-tag.dto';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
@@ -75,7 +79,7 @@ export class TagService {
     }
   }
 
-  async getTagList(params: QueryTagDto) {
+  async getTagList(params: QueryParamsTagDto) {
     try {
       const { current, size, tagName } = params;
       const search = this.tagRepository
@@ -94,6 +98,72 @@ export class TagService {
       };
     } catch (e) {
       return new BusinessException('查询标签列表失败');
+    }
+  }
+
+  async getTagDictionary() {
+    try {
+      const tags = await this.tagRepository
+        .createQueryBuilder('tag')
+        .select([...pick(entityKeys, ['tag.createdAt', 'tag.updatedAt'])])
+        .getMany();
+
+      return tags ?? null;
+    } catch (e) {
+      this.Logger.warn('getTagDictionary 查询失败');
+      return new BusinessException({
+        code: BUSINESS_ERROR_CODE.COMMON,
+        message: '查询标签失败',
+      });
+    }
+  }
+
+  async getTagCount() {
+    try {
+      const tagCount = await this.tagRepository.count();
+      return tagCount ?? 0;
+    } catch (e) {
+      return new BusinessException({
+        message: '查询标签数量失败',
+        code: BUSINESS_ERROR_CODE.COMMON,
+      });
+    }
+  }
+
+  /**
+   * @description 依据条件查询tag
+   * @param tagDto
+   */
+  async getOneTag(tagDto: QueryTagDto) {
+    try {
+      const search = await this.tagRepository
+        .createQueryBuilder('tag')
+        .select(pick(entityKeys, ['tag.createdAt', 'tag.updatedAt']));
+      const { id, tagName } = tagDto;
+      let hasId = false;
+      if (id) {
+        search.where('tag.id = :id', { id });
+        hasId = true;
+      }
+
+      if (tagName) {
+        hasId
+          ? search.andWhere('tag.tag_name = :tag_name', {
+              tag_name: tagName,
+            })
+          : search.where('tag.tag_name = :tag_name', {
+              tag_name: tagName,
+            });
+      }
+
+      const category = await search.getOne();
+
+      return category ?? null;
+    } catch (e) {
+      return new BusinessException({
+        code: BUSINESS_ERROR_CODE.CATEGORY,
+        message: '查询标签失败',
+      });
     }
   }
 }

@@ -27,6 +27,7 @@ import { PhotoAlbumModule } from './modules/photo-album/photo-album.module';
 import { StatisticModule } from './modules/statistic/statistic.module';
 import { TagModule } from './modules/tag/tag.module';
 import { TalkModule } from './modules/talk/talk.module';
+import { ArticleTagModule } from './modules/article-tag/article-tag.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { TalkModule } from './modules/talk/talk.module';
     StatisticModule,
     TagModule,
     TalkModule,
+    ArticleTagModule,
   ],
   controllers: [AppController],
   providers: [

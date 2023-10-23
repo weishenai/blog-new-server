@@ -3,7 +3,7 @@ import { TagService } from './tag.service';
 import { SwaggerDocumentation } from '../../common/decorator/swagger.decorator';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { QueryTagDto } from './dto/query-tag.dto';
+import { QueryParamsTagDto, QueryTagDto } from './dto/query-tag.dto';
 import { DeleteTagDto } from './dto/delete-tag.dto';
 
 @Controller('tag')
@@ -26,10 +26,12 @@ export class TagController {
   }
 
   @Post('/getTagList')
-  async getTagList(@Body() params: QueryTagDto) {
+  async getTagList(@Body() params: QueryParamsTagDto) {
     return await this.tagService.getTagList(params);
   }
 
   @Get('/getTagDictionary')
-  async getTagDictionary() {}
+  async getTagDictionary() {
+    return await this.tagService.getTagDictionary();
+  }
 }
