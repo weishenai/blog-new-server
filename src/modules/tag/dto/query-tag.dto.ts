@@ -16,7 +16,7 @@ export class TagDictionaryDTO {
 }
 
 export const entityKeys = [
-  'tag.tag_name',
+  'tag.tagName',
   'tag.createdAt',
   'tag.updatedAt',
   'tag.id',

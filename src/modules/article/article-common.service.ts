@@ -2,7 +2,7 @@ import { Inject, Injectable, LoggerService } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { TagService } from '../tag/tag.service';
 import { CategoryService } from '../category/category.service';
-import { TagDictionaryDTO } from '../tag/dto/query-tag.dto';
+import { QueryTagDto, TagDictionaryDTO } from '../tag/dto/query-tag.dto';
 import { BusinessException } from '../../common/exceptions/business.exception';
 import { CreateOrUpdateTagDto } from '../tag/dto/update-tag.dto';
 import { ArticleTagService } from '../article-tag/article-tag.service';
@@ -60,27 +60,26 @@ export class ArticleCommonService {
   ): Promise<TagDictionaryDTO[]> {
     let resultList = [];
     // 先将新增的tag进行保存，拿到tag的id，再进行标签 文章关联
-    const promiseList: { id: number; tagBane: string } = tagList.map(
-      async (tag) => {
-        if (!tag.id) {
-          let res;
-          const one = await this.tagService.getOneTag({ tagName: tag.tagName });
-          if (one) {
-            res = one;
-          } else {
-            res = await this.tagService.addTag(tag);
-          }
-          return res;
+    const promiseList: Promise<QueryTagDto>[] = tagList.map(async (tag) => {
+      if (!tag.id) {
+        let res: QueryTagDto;
+        const one = await this.tagService.getOneTag({ tagName: tag.tagName });
+        if (one && !(one instanceof BusinessException)) {
+          res = one;
+        } else {
+          const addRes = await this.tagService.addTag(tag);
+          !(addRes instanceof BusinessException) && (res = addRes);
         }
-      },
-    );
+        return res;
+      }
+    });
 
     // 组装添加了标签id后的标签列表
     await Promise.all(promiseList).then((res) => {
       res.forEach((r) => {
         if (r) {
           const i = tagList.findIndex((tag) => tag.tagName == r.tagName);
-          if (i != -1) {
+          if (i !== -1) {
             tagList[i].id = r.id;
           }
         }
@@ -97,10 +96,15 @@ export class ArticleCommonService {
         };
       });
       // 批量新增文章标签关联
-      resultList =
+      const createArticleTags =
         await this.articleTagService.createArticleTags(articleTagList);
+      if (createArticleTags instanceof BusinessException) {
+        this.Logger.warn('创建文章标签出错');
+      } else {
+        resultList = createArticleTags;
+      }
     }
 
-    return [];
+    return resultList;
   }
 }

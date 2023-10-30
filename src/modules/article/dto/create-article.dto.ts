@@ -1,11 +1,6 @@
 import { CreateOrUpdateTagDto } from '../../tag/dto/update-tag.dto';
 import { createOrUpdateCategory } from '../../category/dto/update-category.dto';
 
-export class CreateArticleParamsDtO extends CreateArticleDto {
-  category: createOrUpdateCategory;
-  tagList: CreateOrUpdateTagDto[];
-}
-
 export class CreateArticleDto {
   articleTitle: string;
 
@@ -33,4 +28,13 @@ export class CreateArticleDto {
   thumbsUpTimes: number;
 
   readingDuration: number;
+}
+
+export class CreateArticleParamsDtO extends CreateArticleDto {
+  category: createOrUpdateCategory;
+  tagList: CreateOrUpdateTagDto[];
+}
+
+export class CreateArticleResultDto extends CreateArticleDto {
+  id: number;
 }

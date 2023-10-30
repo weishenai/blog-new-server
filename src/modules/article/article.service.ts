@@ -2,6 +2,7 @@ import { Inject, Injectable, LoggerService } from '@nestjs/common';
 import {
   CreateArticleDto,
   CreateArticleParamsDtO,
+  CreateArticleResultDto,
 } from './dto/create-article.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -44,14 +45,14 @@ export class ArticleService {
       }
       const { tagList, category, ...articleRest } = articleDto;
       // 若分类不存在 就先创建分类
-      const { id, category_name } = category;
+      const { id, categoryName } = category;
       articleRest.categoryId =
         await this.articleCommonService.createCategoryOrReturn(
           id,
-          category_name,
+          categoryName,
         );
 
-      let newArticle: CreateArticleDto | null = null,
+      let newArticle: CreateArticleResultDto | null = null,
         newArticleTagList: TagDictionaryDTO[] = [];
       newArticle = await this.createArticle(articleRest);
 

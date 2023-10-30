@@ -15,5 +15,5 @@ export class ArticleTag extends Base {
     name: 'tag_id',
     comment: '标签id',
   })
-  tagIid: number;
+  tagId: number;
 }

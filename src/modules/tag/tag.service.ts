@@ -155,10 +155,11 @@ export class TagService {
               tag_name: tagName,
             });
       }
+      const sql = search.getSql();
+      this.Logger.log('sql', sql);
+      const tag = await search.getOne();
 
-      const category = await search.getOne();
-
-      return category ?? null;
+      return tag ?? null;
     } catch (e) {
       return new BusinessException({
         code: BUSINESS_ERROR_CODE.CATEGORY,
