@@ -59,6 +59,7 @@ export function randomNickname(prefix, randomLength) {
 }
 
 export function getIpAddress(ip) {
+  if (!ip) return '';
   const arr = ipNet.find(ip);
 
   if (!arr) {

@@ -8,6 +8,10 @@ import { BusinessException } from '../../common/exceptions/business.exception';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { entityKeys, QueryResultDto, QueryUserDto } from './dto/query-user.dto';
 import { getIpAddress, pick } from '../../utils/tool';
+import { UpdatePassWordDto, UpdateUserDto } from './dto/update-user.dto';
+import { BUSINESS_ERROR_CODE } from '../../common/exceptions/business.error.codes';
+import { UserValidateService } from './user-validate.service';
+import { encodePassword } from './utils';
 
 @Injectable()
 export class UserService {
@@ -16,6 +20,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     @Inject(WINSTON_MODULE_NEST_PROVIDER)
     private readonly Logger: LoggerService,
+    private readonly userValidateService: UserValidateService,
   ) {}
   async getUserInfo(username: string) {
     if (username === '5201314') {
@@ -42,7 +47,7 @@ export class UserService {
     try {
       const tempUser = await this.userRepository.create(createUserDto);
       // 给密码加密
-      tempUser.password = this.encodePassword(tempUser.password);
+      tempUser.password = encodePassword(tempUser.password);
       const res = await this.userRepository.save(tempUser);
       console.log('result', res);
       if (res) {
@@ -110,9 +115,68 @@ export class UserService {
     return await this.userRepository.findOne(condition);
   }
 
-  // 对用户密码进行编码
-  public encodePassword(password: string): string {
-    const salt = bcrypt.genSaltSync(10);
-    return bcrypt.hashSync(password, salt);
+  // 更新用户信息
+  async adminUpdateUserInfo(body: UpdateUserDto) {
+    try {
+      const { state, message } =
+        await this.userValidateService.needAdminAuth(body);
+      if (!state) return new BusinessException(message);
+      const { id, avatar } = body;
+      const userInfo = (await this.getUserById(id)) as QueryResultDto;
+      if (userInfo?.avatar && userInfo.avatar !== avatar) {
+        //   TODO 删除用户头像
+      }
+      const res = await this.userRepository.save(body);
+      if (res instanceof UpdateUserDto) {
+        return true;
+      }
+    } catch (e) {
+      this.Logger.warn(e);
+      return new BusinessException({
+        code: BUSINESS_ERROR_CODE.USER,
+        message: '修改用户信息失败',
+      });
+    }
+  }
+
+  // 更新角色信息
+  async updateRole(id: number, role: number, body: UpdateUserDto) {
+    try {
+      const { state, message } =
+        await this.userValidateService.needAdminAuth(body);
+      if (!state) return new BusinessException(message);
+      const res = await this.userRepository.update(id, { role });
+      if (res) {
+        return true;
+      }
+    } catch (e) {
+      this.Logger.warn(e);
+      return new BusinessException({
+        code: BUSINESS_ERROR_CODE.USER,
+        message: '修改角色失败',
+      });
+    }
+  }
+
+  // 修改密码
+  async updatePassWord(body: UpdatePassWordDto) {
+    try {
+      const { state, message } =
+        await this.userValidateService.validatePassword(body);
+      if (!state) return new BusinessException(message);
+      const { password1, id } = body;
+      const encodePass = encodePassword(password1);
+      const res = await this.userRepository.update(id, {
+        password: encodePass,
+      });
+      if (res) {
+        return true;
+      }
+    } catch (e) {
+      return new BusinessException({
+        code: BUSINESS_ERROR_CODE.USER,
+        message: '修改用户密码失败',
+      });
+    }
   }
 }
