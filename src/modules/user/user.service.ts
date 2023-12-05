@@ -179,4 +179,29 @@ export class UserService {
       });
     }
   }
+
+  async updateUserInfo(body: UpdateUserDto) {
+    try {
+      const { id, avatar } = body;
+      if (!id) {
+        return new BusinessException({
+          code: BUSINESS_ERROR_CODE.USER,
+          message: '更新用户缺少必要信息',
+        });
+      }
+      const userInfo = (await this.getUserById(id)) as QueryResultDto;
+      if (userInfo?.avatar && userInfo.avatar !== avatar) {
+        //   TODO 删除用户头像
+      }
+      const res = await this.userRepository.update(id, body);
+      if (res instanceof UpdateUserDto) {
+        return true;
+      }
+    } catch (e) {
+      return new BusinessException({
+        code: BUSINESS_ERROR_CODE.USER,
+        message: '修改用户失败',
+      });
+    }
+  }
 }

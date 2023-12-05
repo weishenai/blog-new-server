@@ -73,7 +73,7 @@ export class TagService {
       });
     } catch (e) {
       return new BusinessException({
-        message: '创建失败',
+        message: '删除失败',
         code: BUSINESS_ERROR_CODE.COMMON,
       });
     }

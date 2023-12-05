@@ -37,7 +37,7 @@ export class UserController {
 
   @Put('/adminUpdateUserInfo')
   @SwaggerDocumentation('管理员修改用户信息', '', '', String)
-  async updateUserInfo(@Body() body: UpdateUserDto) {
+  async adminUpdateUserInfo(@Body() body: UpdateUserDto) {
     return await this.userService.adminUpdateUserInfo(body);
   }
 
@@ -52,8 +52,14 @@ export class UserController {
   }
 
   @Put('/updatePassword')
-  @SwaggerDocumentation('修改用户角色', 'true', 'false', Boolean)
+  @SwaggerDocumentation('修改用户密码', 'true', 'false', Boolean)
   async updatePassWord(@Body() body: UpdatePassWordDto) {
     return await this.userService.updatePassWord(body);
+  }
+
+  @Put('/updateOwnUserInfo')
+  @SwaggerDocumentation('修改用户信息', '', '', Boolean)
+  async updateUserInfo(@Body() body: UpdateUserDto) {
+    return await this.userService.updateUserInfo(body);
   }
 }
