@@ -8,7 +8,7 @@ export class Photo extends Base {
     comment: '相册 id 属于哪个相册',
     type: 'integer',
   })
-  album_id: number;
+  albumId: number;
 
   @Column({
     name: 'url',

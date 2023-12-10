@@ -8,7 +8,6 @@ import { BUSINESS_ERROR_CODE } from '../../common/exceptions/business.error.code
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { QueryPhoneAlbumDto } from './dto/query-phoneAlbum.dto';
 import { UpdatePhoneAlbumDto } from './dto/update-phoneAlbum.dto';
-import { message } from 'memfs/lib/internal/errors';
 
 @Injectable()
 export class PhotoAlbumService {
