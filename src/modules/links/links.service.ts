@@ -34,6 +34,7 @@ export class LinksService {
           userId: 1,
           type: 4,
           message: `您的收到了来自于：${siteName} 的友链申请，点我去后台审核！`,
+          toId: 0,
           isView: 1,
         });
       }
