@@ -5,7 +5,7 @@ export class CreateNotifyDto {
 
   type: number;
 
-  toId: number;
+  toId?: number;
 
-  isView: number;
+  isView?: number = 1;
 }

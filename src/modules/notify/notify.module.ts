@@ -8,5 +8,6 @@ import { Notify } from '../../common/database/entities/notify.entity';
   imports: [TypeOrmModule.forFeature([Notify])],
   controllers: [NotifyController],
   providers: [NotifyService],
+  exports: [NotifyService],
 })
 export class NotifyModule {}
