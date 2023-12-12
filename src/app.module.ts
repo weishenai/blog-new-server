@@ -28,6 +28,7 @@ import { StatisticModule } from './modules/statistic/statistic.module';
 import { TagModule } from './modules/tag/tag.module';
 import { TalkModule } from './modules/talk/talk.module';
 import { ArticleTagModule } from './modules/article-tag/article-tag.module';
+import { StaticModule } from './modules/static/static.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { ArticleTagModule } from './modules/article-tag/article-tag.module';
     TagModule,
     TalkModule,
     ArticleTagModule,
+    StaticModule,
   ],
   controllers: [AppController],
   providers: [

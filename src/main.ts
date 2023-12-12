@@ -9,12 +9,13 @@ import type { SERVER } from './interface/Environment';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { generateDocument } from './doc';
 import { join } from 'path';
-
+import fastifyMutipart from 'fastify-multipart';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
+
   app.useGlobalInterceptors(new TransformInterceptor());
   // app.setGlobalPrefix('api');
   generateDocument(app);
@@ -22,6 +23,10 @@ async function bootstrap() {
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
     prefix: '/',
+  });
+  //
+  await app.register(fastifyMutipart, {
+    addToBody: true,
   });
   const configService = app.get(ConfigService);
   const server: SERVER = configService.get('SERVER');
