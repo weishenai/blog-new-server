@@ -22,5 +22,5 @@ export class Like extends Base {
     type: 'integer',
     comment: '点赞用户id',
   })
-  user_id: number;
+  userId: number;
 }

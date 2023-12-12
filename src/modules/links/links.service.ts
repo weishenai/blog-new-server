@@ -7,8 +7,6 @@ import { Links } from '../../common/database/entities/links.entity';
 import { NotifyService } from '../notify/notify.service';
 import { BusinessException } from '../../common/exceptions/business.exception';
 import { BUSINESS_ERROR_CODE } from '../../common/exceptions/business.error.codes';
-import { pick } from '../../utils/tool';
-import { entityKeys } from '../user/dto/query-user.dto';
 import { QueryLinksDto } from './dto/query-links.dto';
 
 @Injectable()
