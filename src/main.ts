@@ -21,7 +21,7 @@ async function bootstrap() {
   generateDocument(app);
   // 配置模版引擎
   app.useStaticAssets({
-    root: join(__dirname, '..', 'public'),
+    root: join(process.cwd(), 'public'),
     prefix: '/',
   });
   //

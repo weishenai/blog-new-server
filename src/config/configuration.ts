@@ -38,7 +38,7 @@ const schema = Joi.object().keys({
 
 export const getConfig = () => {
   const environment = getEnv().trim();
-  const yamlPath = join(process.cwd(), `./src/config/.${environment}.yaml`);
+  const yamlPath = join(__dirname, `./.${environment}.yaml`);
   const config = yaml.load(readFileSync(yamlPath, 'utf8')) as Record<
     string,
     any

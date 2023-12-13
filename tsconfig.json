@@ -3,7 +3,8 @@
     "**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "clone.js"
   ],
   "compilerOptions": {
     "module": "commonjs",

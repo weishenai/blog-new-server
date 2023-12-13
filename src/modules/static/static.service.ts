@@ -1,7 +1,7 @@
 import { Inject, Injectable, LoggerService } from '@nestjs/common';
 import path, { join } from 'path';
 import fs from 'fs';
-import { createWriteStream } from 'fs';
+import { createWriteStream, mkdirSync, accessSync } from 'fs';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { BusinessException } from '../../common/exceptions/business.exception';
 
@@ -35,8 +35,8 @@ export class StaticService {
       const data = multipart['file'][0].data;
 
       //文件上传路径
-      const path = join(__dirname, '../../../public/onLine/');
-
+      const path = join(process.cwd(), '/public/onLine/');
+      await this.isDirExisted(path);
       const writerStream = createWriteStream(path + filename);
       writerStream.write(data);
       await writerStream.end();
@@ -44,7 +44,7 @@ export class StaticService {
       return {
         success: 1,
         message: 'success',
-        url: '/upload/' + filename, //此处为返回给前端的文件路径，前端可以通过此URL访问到文件
+        url: '/onLine/' + filename, //此处为返回给前端的文件路径，前端可以通过此URL访问到文件
       };
     } catch (e) {
       this.Logger.warn('e', e);
@@ -54,5 +54,14 @@ export class StaticService {
 
   async isValidUrl(url) {
     return url.indexOf('http') != -1 || url.indexOf('https') != -1;
+  }
+
+  async isDirExisted(path: string) {
+    try {
+      accessSync(path);
+    } catch (e) {
+      this.Logger.warn('e', e);
+      mkdirSync(path, { recursive: true });
+    }
   }
 }

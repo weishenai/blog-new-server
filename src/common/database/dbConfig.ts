@@ -11,6 +11,7 @@ export function buildConnectionOptions(configService: ConfigService) {
     process.env.NODE_ENV === 'env.local'
       ? [join(__dirname, 'entities') + '/**/*.entity.{js,ts}']
       : [join(__dirname, 'entities') + '/**/*.entity.{js,ts}'];
+  console.log('entitiesDir', entitiesDir);
   return {
     ...config,
     entities: entitiesDir,
