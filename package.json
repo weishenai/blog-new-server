@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "cross-env NODE_ENV=production nest build && npm run clone",
+    "build:ncc": "cross-env NODE_ENV=production nest build && ncc build ./dist/main.js -o ncc-dist",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "cross-env NODE_ENV=env.local nest start --watch",
@@ -55,6 +56,8 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "@vercel/ncc": "0.38.1",
+    "clean-webpack-plugin": "4.0.0",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
